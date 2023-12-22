@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedInUser')
@@ -32,8 +34,10 @@ const App = () => {
   if (user === null) {
     return (
       <div>
+        <Notification message={errorMessage} />
+
         <h2>Log in to application</h2>
-        <LoginForm setUser={setUser} />
+        <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />
       </div>
     )
   }
@@ -48,10 +52,14 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+
+      <Notification message={errorMessage} />
+
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>logout</button>
+
       <h2>create new blog</h2>
-      <BlogForm setBlogs={setBlogs} />
+      <BlogForm setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
       {blogsToShow.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

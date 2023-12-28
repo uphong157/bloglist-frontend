@@ -8,6 +8,7 @@ import blogService from './services/blogs'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [blogFormVisible, setBlogFormVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleLogout = () => {
@@ -55,11 +56,20 @@ const App = () => {
 
       <Notification message={errorMessage} />
 
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>logout</button>
+      <p>
+        {user.name} logged in
+        <button onClick={handleLogout}>logout</button>
+      </p>
 
-      <h2>create new blog</h2>
-      <BlogForm setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
+      <div style={{display : blogFormVisible ? 'none' : '' }}>
+        <button onClick={() => setBlogFormVisible(true)}>add new blog</button>
+      </div>
+      <div style={{display : blogFormVisible ? '' : 'none' }}>
+        <h2>create new blog</h2>
+        <BlogForm setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
+        <button onClick={() => setBlogFormVisible(false)}>cancel</button>
+      </div>
+
       {blogsToShow.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

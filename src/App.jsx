@@ -65,7 +65,6 @@ const App = () => {
         <button onClick={() => setBlogFormVisible(true)}>add new blog</button>
       </div>
       <div style={{display : blogFormVisible ? '' : 'none' }}>
-        <h2>create new blog</h2>
         <BlogForm setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
         <button onClick={() => setBlogFormVisible(false)}>cancel</button>
       </div>

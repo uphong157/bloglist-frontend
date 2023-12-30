@@ -18,9 +18,15 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    async function fetchBlogs() {
+      try {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+      } catch (e) {
+        console.log('Error', e)
+      }
+    }
+    fetchBlogs()
   }, [])
 
   useEffect(() => {

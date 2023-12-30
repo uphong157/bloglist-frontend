@@ -15,21 +15,22 @@ const BlogForm = ({ setBlogs, setErrorMessage }) => {
       url: url,
     }
 
-    blogService
-      .create(blogObject)
-        .then(returnedBlog => {
-          blogService.getAll().then(blogs =>
-            setBlogs( blogs )
-          ) 
-          setTitle('')
-          setAuthor('')
-          setUrl('')
+    try {
+      await blogService.create(blogObject)
 
-          setErrorMessage(`new blog "${title}" has been added`)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-      })
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+
+      setErrorMessage(`new blog "${title}" has been added`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } catch (e) {
+      console.log('Error', e)
+    }
   }
 
   return (

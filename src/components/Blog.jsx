@@ -15,6 +15,19 @@ const Blog = ({ blog, setBlogs }) => {
     }
   }
 
+  const handleBlogDelete = async () => {
+    if (!window.confirm(`Remove blog "${blog.title}"?`)) return
+
+    try {
+      await blogService.deleteById(blog.id)
+
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    } catch(e) {
+      console.log('Error', e)
+    }
+  }
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -49,6 +62,7 @@ const Blog = ({ blog, setBlogs }) => {
         {blog.url}<br/>
         likes {blog.likes} <button onClick={handleLikeClick}>like</button><br/>
         {blog.user.username}<br/>
+        <button onClick={handleBlogDelete}>remove</button><br/>
       </div>
     </div>
   )

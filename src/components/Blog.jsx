@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
@@ -66,6 +67,11 @@ const Blog = ({ blog, setBlogs }) => {
       </div>
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
 }
 
 export default Blog

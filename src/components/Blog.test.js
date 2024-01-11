@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -33,5 +34,17 @@ describe('<Blog />', () => {
 
     expect(urlElem).toHaveStyle('display: none')
     expect(likesElem).toHaveStyle('display: none')
+  })
+
+  test('after clicking the view button, URL and likes are displayed', async () => {
+    const user = userEvent.setup()
+    const viewBtn = screen.getByRole('button', { name: 'view' })
+    await user.click(viewBtn)
+
+    const urlElem = screen.getByText(blog.url, { exact: false })
+    const likesElem = screen.getByText(blog.likes, { exact: false })
+
+    expect(urlElem).not.toHaveStyle('display: none')
+    expect(likesElem).not.toHaveStyle('display: none')
   })
 })

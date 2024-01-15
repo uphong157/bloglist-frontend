@@ -11,12 +11,6 @@ const App = () => {
   const [blogFormVisible, setBlogFormVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedInUser')
-    blogService.setToken('')
-    setUser(null)
-  }
-
   useEffect(() => {
     async function fetchBlogs() {
       try {
@@ -37,6 +31,24 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedInUser')
+    blogService.setToken('')
+    setUser(null)
+  }
+
+  const increaseLikes = async (id) => {
+    try {
+      const blog = blogs.find(b => b.id === id)
+      await blogService.updateById(blog.id, { likes: blog.likes + 1 })
+      
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
+    } catch(e) {
+      console.log('Error', e)
+    }
+  }
 
   if (user === null) {
     return (
@@ -77,7 +89,12 @@ const App = () => {
 
       {blogsToShow.sort((a, b) => a.likes < b.likes)
         .map(blog =>
-          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
+          <Blog 
+            key={blog.id}
+            blog={blog}
+            setBlogs={setBlogs}
+            increaseLikes={() => increaseLikes(blog.id)}
+          />
       )}
     </div>
   )

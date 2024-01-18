@@ -15,9 +15,14 @@ describe('<Blog />', () => {
     }
   }
   const mockHandler = jest.fn()
+  const mockLikesHandler = jest.fn()
 
   beforeEach(() => {
-    render(<Blog blog={blog} setBlogs={mockHandler} />)
+    render(<Blog
+      blog={blog} 
+      setBlogs={mockHandler} 
+      increaseLikes={mockLikesHandler}
+    />)
   })
 
   test('renders title and author', () => {
@@ -46,5 +51,18 @@ describe('<Blog />', () => {
 
     expect(urlElem).not.toHaveStyle('display: none')
     expect(likesElem).not.toHaveStyle('display: none')
+  })
+
+  test('clicking likes btn 2 times calls the handler 2 times', async () => {
+    const user = userEvent.setup()
+    
+    const viewBtn = screen.getByRole('button', { name: 'view' })
+    await user.click(viewBtn)
+
+    const likeBtn = screen.getByRole('button', { name: 'like' })
+    await user.click(likeBtn)
+    await user.click(likeBtn)
+
+    expect(mockLikesHandler.mock.calls).toHaveLength(2)
   })
 })

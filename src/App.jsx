@@ -50,6 +50,22 @@ const App = () => {
     }
   }
 
+  const addBlog = async (blogObject) => {
+    try {
+      await blogService.create(blogObject)
+
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+
+      setErrorMessage(`new blog "${blogObject.title}" has been added`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } catch (e) {
+      console.log('Error', e)
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -83,7 +99,7 @@ const App = () => {
         <button onClick={() => setBlogFormVisible(true)}>add new blog</button>
       </div>
       <div style={{display : blogFormVisible ? '' : 'none' }}>
-        <BlogForm setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
+        <BlogForm createBlog={addBlog} />
         <button onClick={() => setBlogFormVisible(false)}>cancel</button>
       </div>
 

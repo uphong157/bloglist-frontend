@@ -36,4 +36,26 @@ describe('Blog app', () => {
       cy.contains(`${userA.name} logged in`).should('not.exist')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: userA.username, password: userA.password })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('add new blog').click()
+
+      const newBlog = {
+        title: 'Title',
+        author: 'Author',
+        url: 'Url',
+      }
+      cy.get('input[name=Title]').type(newBlog.title)
+      cy.get('input[name=Author]').type(newBlog.author)
+      cy.get('input[name=Url]').type(newBlog.url)
+      cy.get('button').contains('create').click()
+
+      cy.get('.blog').contains(`${newBlog.title} ${newBlog.author}`)
+    })
+  })
 })

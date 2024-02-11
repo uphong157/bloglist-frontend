@@ -30,7 +30,7 @@ const Blog = ({ blog, setBlogs, increaseLikes }) => {
   const hideIfDetailVisible = { display: detailVisible ? 'none' : '' }
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       <div>
         {blog.title} {blog.author}
       </div>

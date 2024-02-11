@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, setBlogs, increaseLikes }) => {
+const Blog = ({ blog, setBlogs, increaseLikes, isDeleteAllowed }) => {
   const [detailVisible, setDetailVisible] = useState(false)
 
   const handleBlogDelete = async () => {
@@ -52,7 +52,10 @@ const Blog = ({ blog, setBlogs, increaseLikes }) => {
         {blog.url}<br/>
         likes {blog.likes} <button onClick={increaseLikes}>like</button><br/>
         {blog.user.username}<br/>
-        <button onClick={handleBlogDelete}>remove</button><br/>
+        { isDeleteAllowed && <>
+            <button onClick={handleBlogDelete}>remove</button><br/>
+          </>
+        }
       </div>
     </div>
   )

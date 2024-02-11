@@ -79,11 +79,7 @@ const App = () => {
 
   // blog will generally have a user, but not technically guaranteed
   // will filter out blogs that don't have an user
-  const blogsToShow = user === null
-    ? blogs
-    : blogs
-        .filter(blog => blog.user)
-        .filter(blog => blog.user.username === user.username)
+  const blogsToShow = blogs.filter(blog => blog.user)
   return (
     <div>
       <h2>blogs</h2>
@@ -109,6 +105,7 @@ const App = () => {
             key={blog.id}
             blog={blog}
             setBlogs={setBlogs}
+            isDeleteAllowed={blog.user.username === user.username}
             increaseLikes={() => increaseLikes(blog.id)}
           />
       )}

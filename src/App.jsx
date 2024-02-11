@@ -95,7 +95,7 @@ const App = () => {
         <button onClick={() => setBlogFormVisible(true)}>add new blog</button>
       </div>
       <div style={{display : blogFormVisible ? '' : 'none' }}>
-        <BlogForm createBlog={addBlog} />
+        <BlogForm createBlog={addBlog} hideSelf={() => setBlogFormVisible(false)}/>
         <button onClick={() => setBlogFormVisible(false)}>cancel</button>
       </div>
 

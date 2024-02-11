@@ -1,3 +1,5 @@
+const BACKEND = Cypress.env('BACKEND')
+
 const userA = {
   name: 'FirstNameA LastNameA',
   username: 'UsernameA',
@@ -6,10 +8,10 @@ const userA = {
 
 describe('Blog app', () => {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    cy.request('POST', 'http://localhost:3003/api/users/', userA)
+    cy.request('POST', `${BACKEND}/testing/reset`)
+    cy.request('POST', `${BACKEND}/users/`, userA)
 
-    cy.visit('http://localhost:5173')
+    cy.visit('')
   })
 
   it('Login form is shown', () => {

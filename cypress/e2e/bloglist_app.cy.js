@@ -70,16 +70,16 @@ describe('Blog app', () => {
 
       cy.get('@blogA').contains(`likes 0`)
 
-      cy.get('@blogA').get('button').contains('view').click()
-      cy.get('@blogA').get('button').contains('like').click()
+      cy.get('@blogA').find('button').contains('view').click()
+      cy.get('@blogA').find('button').contains('like').click()
       cy.get('@blogA').contains(`likes 1`)
     })
 
     it('the user who created a blog can delete it.', function () {
       cy.get('.blog').first().as('blogA')
       
-      cy.get('@blogA').get('button').contains('view').click()
-      cy.get('@blogA').get('button').contains('remove').click()
+      cy.get('@blogA').find('button').contains('view').click()
+      cy.get('@blogA').find('button').contains('remove').click()
 
       cy.get('.blog').should('not.exist')
     })
@@ -97,7 +97,7 @@ describe('Blog app', () => {
       
       cy.login(userB)
       cy.get('.blog').first().as('blogA')
-      cy.get('@blogA').get('button').contains('view').click()
+      cy.get('@blogA').find('button').contains('view').click()
       
       cy.get('@blogA').contains('remove').should('not.exist')
     })

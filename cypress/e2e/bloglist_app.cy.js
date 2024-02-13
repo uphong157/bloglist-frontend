@@ -83,5 +83,25 @@ describe('Blog app', () => {
 
       cy.get('.blog').should('not.exist')
     })
+
+    it('the user who did not create the blog cannot delete it', function () {
+      const userB = {
+        name: 'FirstNameB LastNameB',
+        username: 'UsernameB',
+        password: 'PasswordB',
+      }
+      cy.request('POST', `${BACKEND}/users/`, userB)
+
+      cy.contains('logout').click()
+      cy.contains('Log in to application')
+      
+      cy.login(userB)
+      cy.get('.blog').first().as('blogA')
+      cy.get('@blogA').get('button').contains('view').click()
+      
+      cy.get('@blogA').contains('remove').should('not.exist')
+    })
+
+
   })
 })

@@ -40,6 +40,13 @@ describe('Blog app', () => {
   describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username: userA.username, password: userA.password })
+
+      const blogA = {
+        title: 'titleA',
+        author: 'authorA',
+        url: 'urlA',
+      }
+      cy.createBlog(blogA)
     })
 
     it('A blog can be created', function() {
@@ -56,6 +63,16 @@ describe('Blog app', () => {
       cy.get('button').contains('create').click()
 
       cy.get('.blog').contains(`${newBlog.title} ${newBlog.author}`)
+    })
+
+    it('user can like a blog', function () {
+      cy.get('.blog').first().as('blogA')
+
+      cy.get('@blogA').contains(`likes 0`)
+
+      cy.get('@blogA').get('button').contains('view').click()
+      cy.get('@blogA').get('button').contains('like').click()
+      cy.get('@blogA').contains(`likes 1`)
     })
   })
 })

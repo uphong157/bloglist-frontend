@@ -98,8 +98,7 @@ const App = () => {
         <BlogForm createBlog={addBlog} hideSelf={() => setBlogFormVisible(false)}/>
         <button onClick={() => setBlogFormVisible(false)}>cancel</button>
       </div>
-
-      {blogsToShow.sort((a, b) => a.likes < b.likes)
+      {blogsToShow.sort((a, b) => b.likes - a.likes)
         .map(blog =>
           <Blog 
             key={blog.id}

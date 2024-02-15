@@ -102,6 +102,34 @@ describe('Blog app', () => {
       cy.get('@blogA').contains('remove').should('not.exist')
     })
 
+    it('the blogs are listed in the order of likes', function () {
+      const blogB = {
+        title: 'titleB',
+        author: 'authorB',
+        url: 'urlB',
+      }
+      const blogC = {
+        title: 'titleC',
+        author: 'authorC',
+        url: 'urlC',
+      }
+      cy.createBlog(blogB)
+      cy.createBlog(blogC)
+      cy.get('.blog').filter(`:contains("${blogB.title}")`).as('blogB')
+      cy.get('.blog').filter(`:contains("${blogC.title}")`).as('blogC')
 
+      cy.get('@blogC').find('button').contains('view').click()
+      cy.get('@blogC').find('button').contains('like').click()
+      cy.get('@blogC').contains('likes 1')
+
+      cy.get('@blogB').find('button').contains('view').click()
+      cy.get('@blogB').find('button').contains('like').click()
+      cy.get('@blogB').contains('likes 1')
+      cy.get('@blogB').find('button').contains('like').click()
+      cy.get('@blogB').contains('likes 2')
+      
+      cy.get('.blog').eq(0).contains(blogB.title)
+      cy.get('.blog').eq(1).contains(blogC.title)
+    })
   })
 })
